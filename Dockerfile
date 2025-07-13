@@ -1,6 +1,7 @@
 FROM python:3.10-slim
 
-ENV PYTHONUNBUFFERED=1                 # logt direct naar stdout
+# logt direct naar stdout
+ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip
 
