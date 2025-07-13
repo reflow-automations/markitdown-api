@@ -1,2 +1,2 @@
 flask
-markitdown[all]
+markitdown[all]   # alle optionele features incl. OCR + transcriptie
