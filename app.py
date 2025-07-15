@@ -21,15 +21,16 @@ def convert():
         return jsonify({"error": "Empty filename"}), 400
 
     # Sla het even op in /tmp zodat MarkItDown het kan lezen
-    with tempfile.NamedTemporaryFile(delete=False) as tmp:
-        up.save(tmp.name)
-        tmp_path = tmp.name
-
+    tmp_path = None
     try:
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            tmp_path = tmp.name
+        up.save(tmp_path)
         result = md.convert(tmp_path)          # MarkItDown doet alle type-detectie ✨
         markdown_text = result.text_content
         return jsonify({"markdown": markdown_text})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
-        os.remove(tmp_path)                    # altijd opruimen
+        if tmp_path and os.path.exists(tmp_path):
+            os.remove(tmp_path)                    # altijd opruimen
